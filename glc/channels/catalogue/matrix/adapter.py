@@ -105,7 +105,7 @@ class Adapter(ChannelAdapter):
     # -- outbound --------------------------------------------------------
 
 
-   
+
     async def send(self, reply: ChannelReply) -> Any:
         logger.info("send received reply envelope: %s", reply.model_dump_json())
 
