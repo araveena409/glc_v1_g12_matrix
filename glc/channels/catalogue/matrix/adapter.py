@@ -104,8 +104,6 @@ class Adapter(ChannelAdapter):
 
     # -- outbound --------------------------------------------------------
 
-
-
     async def send(self, reply: ChannelReply) -> Any:
         logger.info("send received reply envelope: %s", reply.model_dump_json())
 
@@ -113,7 +111,7 @@ class Adapter(ChannelAdapter):
             "msgtype": "m.text",
             "body": reply.text or "",
         }
-                # Media replies carry the artifact/URL handle alongside the text
+        # Media replies carry the artifact/URL handle alongside the text
         # body so the gateway can attach it on dispatch.
         if reply.voice_audio_ref:
             payload["msgtype"] = "m.audio"
@@ -123,17 +121,14 @@ class Adapter(ChannelAdapter):
             payload["msgtype"] = f"m.{first.kind}"
             payload["url"] = first.ref
 
-
         mock = self.config.get("mock")
         if mock is not None:
             out = await mock.send(payload)
             logger.info("send outbound native payload: %r", out)
             return out
 
-
         logger.info("send outbound native payload: %r", payload)
         return payload
-
 
     # -- helpers ---------------------------------------------------------
 
